@@ -1,0 +1,352 @@
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        #currency, #producttype{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #description{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+
+
+<link rel="stylesheet" href="../static/assets/css/dashboard.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.1.2/tailwind.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+<div id="app" class="antialiased h-screen bg-gray-100">
+ 
+    <div class="lg:flex">
+      <div class="lg:hidden">
+        <transition name="menu-slide">
+          <div v-show="isOpen" class="w-5/6 fixed bg-white h-screen z-20">
+            <div class="pt-4 pb-2 px-4 flex items-center justify-between bg-gray-200">
+              <div class="text-xl font-semibold">MENU</div>
+              <div @click="toggleMenu">
+                <svg class="w-10 h-10 fill-current text-red-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M4.93 19.07A10 10 0 1 1 19.07 4.93 10 10 0 0 1 4.93 19.07zm1.41-1.41A8 8 0 1 0 17.66 6.34 8 8 0 0 0 6.34 17.66zM13.41 12l1.42 1.41a1 1 0 1 1-1.42 1.42L12 13.4l-1.41 1.42a1 1 0 1 1-1.42-1.42L10.6 12l-1.42-1.41a1 1 0 1 1 1.42-1.42L12 10.6l1.41-1.42a1 1 0 1 1 1.42 1.42L13.4 12z"/></svg>
+              </div>
+            </div>
+            <div class="py-2 pb-4 flex flex-col items-center justify-center bg-gray-200 border-b border-gray-400">
+              <div class="w-16 h-16 flex items-center justify-center border-4 border-green-600 rounded-full">
+                <svg class="ml-2 w-12 h-12 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 83 86"><defs/><path fill-rule="evenodd" d="M7.75 1.364L79 42.5 7.75 83.636V1.364zm4 6.928L71 42.5 11.75 76.708V8.292zM15 16a2 2 0 100-4 2 2 0 000 4zm4-1a1 1 0 100-2 1 1 0 000 2zm11 10.5a8.5 8.5 0 11-17 0 8.5 8.5 0 0117 0zm0 34a8.5 8.5 0 11-17 0 8.5 8.5 0 0117 0zM22 50a3 3 0 100-6 3 3 0 000 6zm-7 22a1 1 0 11-2 0 1 1 0 012 0zm18-9a1 1 0 100-2 1 1 0 000 2zM14 33a1 1 0 11-2 0 1 1 0 012 0zm19-11a1 1 0 11-2 0 1 1 0 012 0zM18 46a1 1 0 100-2 1 1 0 000 2zm1 23.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM13.5 54a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15 36.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM31.5 59a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM25 36.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM13.5 20a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM39 25.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM14.5 69a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM22 38.5a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zM15 50a2 2 0 100-4 2 2 0 000 4zm23 9a2 2 0 11-4 0 2 2 0 014 0zm-5-31a2 2 0 100-4 2 2 0 000 4zM16 43a2 2 0 11-4 0 2 2 0 014 0zm38-.5C54 50.508 47.508 57 39.5 57S25 50.508 25 42.5 31.492 28 39.5 28 54 34.492 54 42.5zm1.75-6.495L67 42.5l-11.25 6.495v-12.99z" clip-rule="evenodd"/></svg>
+              </div>
+              <div class="text-xl">Khayaan's Shop</div>
+            </div>
+            <div class="flex flex-col items-start">
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM5.68 7.1A7.96 7.96 0 0 0 4.06 11H5a1 1 0 0 1 0 2h-.94a7.95 7.95 0 0 0 1.32 3.5A9.96 9.96 0 0 1 11 14.05V9a1 1 0 0 1 2 0v5.05a9.96 9.96 0 0 1 5.62 2.45 7.95 7.95 0 0 0 1.32-3.5H19a1 1 0 0 1 0-2h.94a7.96 7.96 0 0 0-1.62-3.9l-.66.66a1 1 0 1 1-1.42-1.42l.67-.66A7.96 7.96 0 0 0 13 4.06V5a1 1 0 0 1-2 0v-.94c-1.46.18-2.8.76-3.9 1.62l.66.66a1 1 0 0 1-1.42 1.42l-.66-.67zM6.71 18a7.97 7.97 0 0 0 10.58 0 7.97 7.97 0 0 0-10.58 0z"/></svg>
+                <span class="ml-4 font-medium">Dashboard</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M5.41 16H18a2 2 0 0 0 2-2 1 1 0 0 1 2 0 4 4 0 0 1-4 4H5.41l2.3 2.3a1 1 0 0 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 1 1 1.42 1.4L5.4 16zM6 8a2 2 0 0 0-2 2 1 1 0 0 1-2 0 4 4 0 0 1 4-4h12.59l-2.3-2.3a1 1 0 1 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42-1.4L18.6 8H6z"/></svg>
+                <span class="ml-4 font-medium">Transactions</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M20 22H4a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h4V8c0-1.1.9-2 2-2h4V4c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2zM14 8h-4v12h4V8zm-6 4H4v8h4v-8zm8-8v16h4V4h-4z"/></svg>
+                <span class="ml-4 font-medium">Sales</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M20 6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2h7.41l2 2H20zM4 6v12h16V8h-7.41l-2-2H4z"/></svg>
+                <span class="ml-4 font-medium">Products</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2zm1-5a1 1 0 0 1 0-2 5 5 0 0 1 5 5v2a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3zm-2-4a1 1 0 0 1 0-2 3 3 0 0 0 0-6 1 1 0 0 1 0-2 5 5 0 0 1 0 10z"/></svg>
+                <span class="ml-4 font-medium">Members</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M9 4.58V4c0-1.1.9-2 2-2h2a2 2 0 0 1 2 2v.58a8 8 0 0 1 1.92 1.11l.5-.29a2 2 0 0 1 2.74.73l1 1.74a2 2 0 0 1-.73 2.73l-.5.29a8.06 8.06 0 0 1 0 2.22l.5.3a2 2 0 0 1 .73 2.72l-1 1.74a2 2 0 0 1-2.73.73l-.5-.3A8 8 0 0 1 15 19.43V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.58a8 8 0 0 1-1.92-1.11l-.5.29a2 2 0 0 1-2.74-.73l-1-1.74a2 2 0 0 1 .73-2.73l.5-.29a8.06 8.06 0 0 1 0-2.22l-.5-.3a2 2 0 0 1-.73-2.72l1-1.74a2 2 0 0 1 2.73-.73l.5.3A8 8 0 0 1 9 4.57zM7.88 7.64l-.54.51-1.77-1.02-1 1.74 1.76 1.01-.17.73a6.02 6.02 0 0 0 0 2.78l.17.73-1.76 1.01 1 1.74 1.77-1.02.54.51a6 6 0 0 0 2.4 1.4l.72.2V20h2v-2.04l.71-.2a6 6 0 0 0 2.41-1.4l.54-.51 1.77 1.02 1-1.74-1.76-1.01.17-.73a6.02 6.02 0 0 0 0-2.78l-.17-.73 1.76-1.01-1-1.74-1.77 1.02-.54-.51a6 6 0 0 0-2.4-1.4l-.72-.2V4h-2v2.04l-.71.2a6 6 0 0 0-2.41 1.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                <span class="ml-4 font-medium">Settings</span>
+              </div>
+            </div>
+            <div class="w-5/6 fixed bottom-0">
+              <div class="py-3 w-full flex items-center justify-center border-t border-blue-600">
+                <span class="text-blue-600 font-medium">Account</span>
+              </div>
+              <div class="py-3 w-full flex items-center justify-center border-t border-red-700">
+                <span class="text-red-700 font-medium">Log out</span>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </div>
+  
+      <transition name="mask">
+        <div v-show="isOpen" class="fixed inset-0 h-screen w-screen bg-black opacity-75 lg:hidden" @click="toggleMenu"></div>
+      </transition>
+  
+      <div class="lg:flex lg:w-full">
+        <div class="h-12 flex items-center justify-evenly bg-green-600 shadow-md lg:hidden">
+          <div @click="toggleMenu" class="h-full flex items-center justify-center border-r border-green-700">
+            <svg class="mx-2 w-8 h-8 fill-current text-green-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/></svg>
+          </div>
+          <div class="py-2 w-full">
+            <h3 class="ml-8 tracking-wider text-gray-100">DASHBOARD</h3>
+          </div>
+        </div>
+  
+        <div class="hidden lg:flex lg:flex-col transition-menu w-20" :class="{ 'w-2/6': isOpen}">
+  
+          <nav v-show="!isOpen" class="h-screen bg-green-900 transition-menu">
+            <div class="flex flex-col items-center px-2">
+              <div class="pt-4 pb-2 px-4 flex items-center" @click="toggleMenu">
+                <svg class="w-8 h-8 fill-current text-green-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/></svg>
+              </div>
+              <div class="py-4 mt-8 w-full flex flex-col items-center justify-center">
+                <svg class="w-8 h-8 fill-current text-green-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM5.68 7.1A7.96 7.96 0 0 0 4.06 11H5a1 1 0 0 1 0 2h-.94a7.95 7.95 0 0 0 1.32 3.5A9.96 9.96 0 0 1 11 14.05V9a1 1 0 0 1 2 0v5.05a9.96 9.96 0 0 1 5.62 2.45 7.95 7.95 0 0 0 1.32-3.5H19a1 1 0 0 1 0-2h.94a7.96 7.96 0 0 0-1.62-3.9l-.66.66a1 1 0 1 1-1.42-1.42l.67-.66A7.96 7.96 0 0 0 13 4.06V5a1 1 0 0 1-2 0v-.94c-1.46.18-2.8.76-3.9 1.62l.66.66a1 1 0 0 1-1.42 1.42l-.66-.67zM6.71 18a7.97 7.97 0 0 0 10.58 0 7.97 7.97 0 0 0-10.58 0z"/></svg>
+                <span class="text-xs text-gray-400">Dashboard</span>
+              </div>
+              <div class="py-4 w-full flex flex-col items-center justify-center">
+                <svg class="w-8 h-8 fill-current text-green-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M5.41 16H18a2 2 0 0 0 2-2 1 1 0 0 1 2 0 4 4 0 0 1-4 4H5.41l2.3 2.3a1 1 0 0 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 1 1 1.42 1.4L5.4 16zM6 8a2 2 0 0 0-2 2 1 1 0 0 1-2 0 4 4 0 0 1 4-4h12.59l-2.3-2.3a1 1 0 1 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42-1.4L18.6 8H6z"/></svg>
+                <span class="text-xs text-gray-400">Transactions</span>
+              </div>
+              <div class="py-4 w-full flex flex-col items-center justify-center">
+                <svg class="w-8 h-8 fill-current text-green-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M20 22H4a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h4V8c0-1.1.9-2 2-2h4V4c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2zM14 8h-4v12h4V8zm-6 4H4v8h4v-8zm8-8v16h4V4h-4z"/></svg>
+                <span class="text-xs text-gray-400">Sales</span>
+              </div>
+              <div class="py-4 w-full flex flex-col items-center justify-center">
+                <svg class="w-8 h-8 fill-current text-green-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M20 6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2h7.41l2 2H20zM4 6v12h16V8h-7.41l-2-2H4z"/></svg>
+                <span class="text-xs text-gray-400">Products</span>
+              </div>
+              <div class="py-4 w-full flex flex-col items-center justify-center">
+                <svg class="w-8 h-8 fill-current text-green-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2zm1-5a1 1 0 0 1 0-2 5 5 0 0 1 5 5v2a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3zm-2-4a1 1 0 0 1 0-2 3 3 0 0 0 0-6 1 1 0 0 1 0-2 5 5 0 0 1 0 10z"/></svg>
+                <span class="text-xs text-gray-400">Memebers</span>
+              </div>
+              <div class="py-4 w-full flex flex-col items-center justify-center">
+                <svg class="w-8 h-8 fill-current text-green-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M9 4.58V4c0-1.1.9-2 2-2h2a2 2 0 0 1 2 2v.58a8 8 0 0 1 1.92 1.11l.5-.29a2 2 0 0 1 2.74.73l1 1.74a2 2 0 0 1-.73 2.73l-.5.29a8.06 8.06 0 0 1 0 2.22l.5.3a2 2 0 0 1 .73 2.72l-1 1.74a2 2 0 0 1-2.73.73l-.5-.3A8 8 0 0 1 15 19.43V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.58a8 8 0 0 1-1.92-1.11l-.5.29a2 2 0 0 1-2.74-.73l-1-1.74a2 2 0 0 1 .73-2.73l.5-.29a8.06 8.06 0 0 1 0-2.22l-.5-.3a2 2 0 0 1-.73-2.72l1-1.74a2 2 0 0 1 2.73-.73l.5.3A8 8 0 0 1 9 4.57zM7.88 7.64l-.54.51-1.77-1.02-1 1.74 1.76 1.01-.17.73a6.02 6.02 0 0 0 0 2.78l.17.73-1.76 1.01 1 1.74 1.77-1.02.54.51a6 6 0 0 0 2.4 1.4l.72.2V20h2v-2.04l.71-.2a6 6 0 0 0 2.41-1.4l.54-.51 1.77 1.02 1-1.74-1.76-1.01.17-.73a6.02 6.02 0 0 0 0-2.78l-.17-.73 1.76-1.01-1-1.74-1.77 1.02-.54-.51a6 6 0 0 0-2.4-1.4l-.72-.2V4h-2v2.04l-.71.2a6 6 0 0 0-2.41 1.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                <span class="text-xs text-gray-400">Settings</span>
+              </div>
+            </div>
+          </nav>
+  
+          <nav v-show="isOpen" class="h-screen bg-green-900 transition-menu">
+            <div class="flex flex-col">
+              <div class="pt-4 pb-2 px-4 flex items-center justify-between bg-green-200">
+                <div class="text-xl font-semibold text-green-900">MENU</div>
+                <div @click="toggleMenu">
+                  <svg class="w-8 h-8 fill-current text-red-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M4.93 19.07A10 10 0 1 1 19.07 4.93 10 10 0 0 1 4.93 19.07zm1.41-1.41A8 8 0 1 0 17.66 6.34 8 8 0 0 0 6.34 17.66zM13.41 12l1.42 1.41a1 1 0 1 1-1.42 1.42L12 13.4l-1.41 1.42a1 1 0 1 1-1.42-1.42L10.6 12l-1.42-1.41a1 1 0 1 1 1.42-1.42L12 10.6l1.41-1.42a1 1 0 1 1 1.42 1.42L13.4 12z"/></svg>
+                </div>
+              </div>
+              <div class="py-2 pb-4 flex flex-col items-center justify-center bg-green-200 border-b border-gray-400">
+                <div class="w-16 h-16 flex items-center justify-center border-4 border-green-600 rounded-full">
+                  <svg class="ml-2 w-12 h-12 fill-current text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 83 86"><defs/><path fill-rule="evenodd" d="M7.75 1.364L79 42.5 7.75 83.636V1.364zm4 6.928L71 42.5 11.75 76.708V8.292zM15 16a2 2 0 100-4 2 2 0 000 4zm4-1a1 1 0 100-2 1 1 0 000 2zm11 10.5a8.5 8.5 0 11-17 0 8.5 8.5 0 0117 0zm0 34a8.5 8.5 0 11-17 0 8.5 8.5 0 0117 0zM22 50a3 3 0 100-6 3 3 0 000 6zm-7 22a1 1 0 11-2 0 1 1 0 012 0zm18-9a1 1 0 100-2 1 1 0 000 2zM14 33a1 1 0 11-2 0 1 1 0 012 0zm19-11a1 1 0 11-2 0 1 1 0 012 0zM18 46a1 1 0 100-2 1 1 0 000 2zm1 23.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM13.5 54a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM15 36.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM31.5 59a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM25 36.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM13.5 20a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM39 25.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM14.5 69a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM22 38.5a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zM15 50a2 2 0 100-4 2 2 0 000 4zm23 9a2 2 0 11-4 0 2 2 0 014 0zm-5-31a2 2 0 100-4 2 2 0 000 4zM16 43a2 2 0 11-4 0 2 2 0 014 0zm38-.5C54 50.508 47.508 57 39.5 57S25 50.508 25 42.5 31.492 28 39.5 28 54 34.492 54 42.5zm1.75-6.495L67 42.5l-11.25 6.495v-12.99z" clip-rule="evenodd"/></svg>
+                </div>
+                <div class="text-xl">Khayaan's Shop</div>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM5.68 7.1A7.96 7.96 0 0 0 4.06 11H5a1 1 0 0 1 0 2h-.94a7.95 7.95 0 0 0 1.32 3.5A9.96 9.96 0 0 1 11 14.05V9a1 1 0 0 1 2 0v5.05a9.96 9.96 0 0 1 5.62 2.45 7.95 7.95 0 0 0 1.32-3.5H19a1 1 0 0 1 0-2h.94a7.96 7.96 0 0 0-1.62-3.9l-.66.66a1 1 0 1 1-1.42-1.42l.67-.66A7.96 7.96 0 0 0 13 4.06V5a1 1 0 0 1-2 0v-.94c-1.46.18-2.8.76-3.9 1.62l.66.66a1 1 0 0 1-1.42 1.42l-.66-.67zM6.71 18a7.97 7.97 0 0 0 10.58 0 7.97 7.97 0 0 0-10.58 0z"/></svg>
+                <span class="ml-4 font-medium text-white">Dashboard</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M5.41 16H18a2 2 0 0 0 2-2 1 1 0 0 1 2 0 4 4 0 0 1-4 4H5.41l2.3 2.3a1 1 0 0 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 1 1 1.42 1.4L5.4 16zM6 8a2 2 0 0 0-2 2 1 1 0 0 1-2 0 4 4 0 0 1 4-4h12.59l-2.3-2.3a1 1 0 1 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42-1.4L18.6 8H6z"/></svg>
+                <span class="ml-4 font-medium text-white">Transactions</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M20 22H4a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h4V8c0-1.1.9-2 2-2h4V4c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2zM14 8h-4v12h4V8zm-6 4H4v8h4v-8zm8-8v16h4V4h-4z"/></svg>
+                <span class="ml-4 font-medium text-white">Sales</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M20 6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2h7.41l2 2H20zM4 6v12h16V8h-7.41l-2-2H4z"/></svg>
+                <span class="ml-4 font-medium text-white">Products</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M9 12A5 5 0 1 1 9 2a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2zm1-5a1 1 0 0 1 0-2 5 5 0 0 1 5 5v2a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3zm-2-4a1 1 0 0 1 0-2 3 3 0 0 0 0-6 1 1 0 0 1 0-2 5 5 0 0 1 0 10z"/></svg>
+                <span class="ml-4 font-medium text-white">Members</span>
+              </div>
+              <div class="pl-4 py-4 w-full flex items-center border-b border-gray-400">
+                <svg class="w-6 h-6 fill-current text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M9 4.58V4c0-1.1.9-2 2-2h2a2 2 0 0 1 2 2v.58a8 8 0 0 1 1.92 1.11l.5-.29a2 2 0 0 1 2.74.73l1 1.74a2 2 0 0 1-.73 2.73l-.5.29a8.06 8.06 0 0 1 0 2.22l.5.3a2 2 0 0 1 .73 2.72l-1 1.74a2 2 0 0 1-2.73.73l-.5-.3A8 8 0 0 1 15 19.43V20a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-.58a8 8 0 0 1-1.92-1.11l-.5.29a2 2 0 0 1-2.74-.73l-1-1.74a2 2 0 0 1 .73-2.73l.5-.29a8.06 8.06 0 0 1 0-2.22l-.5-.3a2 2 0 0 1-.73-2.72l1-1.74a2 2 0 0 1 2.73-.73l.5.3A8 8 0 0 1 9 4.57zM7.88 7.64l-.54.51-1.77-1.02-1 1.74 1.76 1.01-.17.73a6.02 6.02 0 0 0 0 2.78l.17.73-1.76 1.01 1 1.74 1.77-1.02.54.51a6 6 0 0 0 2.4 1.4l.72.2V20h2v-2.04l.71-.2a6 6 0 0 0 2.41-1.4l.54-.51 1.77 1.02 1-1.74-1.76-1.01.17-.73a6.02 6.02 0 0 0 0-2.78l-.17-.73 1.76-1.01-1-1.74-1.77 1.02-.54-.51a6 6 0 0 0-2.4-1.4l-.72-.2V4h-2v2.04l-.71.2a6 6 0 0 0-2.41 1.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                <span class="ml-4 font-medium text-white">Settings</span>
+              </div>
+            </div>
+          </nav>
+  
+        </div>
+  
+        <div class="w-full">
+          <div class="mx-6 my-3 h-10 flex items-center justify-evenly border border-green-300 rounded-lg">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+            <div class="h-full w-full flex items-center justify-center">
+              <svg class="mx-2 w-8 h-8 fill-current text-green-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
+              <input class="pb-1 h-full w-full rounded-lg bg-transparent focus:outline-none" type="text" placeholder="Search">
+            </div>
+          </div>
+  
+          <div>
+  
+            <div class="mx-2 my-2 pb-1 flex flex-col bg-green-600 rounded-lg text-sm lg:mx-6">
+              <div class="ml-4 mt-2 flex items-center text-gray-100">
+                <h4 class="">Today</h4>
+                <span class="ml-2 text-gray-400" id="currentDate"></span>
+              </div>
+              <div class="mx-4 my-2 flex items-center justify-between">
+                <div class="flex flex-col">
+                  <div class="-mb-2 text-white text-2xl tracking-wide font-semibold">22</div>
+                  <div class="text-xs text-gray-400">Orders</div>
+                </div>
+                <div class="flex">
+                  <div class="mx-4 w-20 flex flex-col border-l-2 border-green-500">
+                    <div class="-mb-2 ml-2 text-white text-2xl tracking-wide font-semibold">149</div>
+                    <div class="ml-2 text-xs text-gray-400">Products in Store</div>
+                  </div>
+                  <div class="w-20 flex flex-col border-l-2 border-green-500">
+                    <div class="-mb-2 ml-2 text-white text-2xl tracking-wide font-semibold">125</div>
+                    <div class="ml-2 text-xs text-gray-400">orders on the way</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+
+  
+            <div class="lg:mx-6">
+                <h2>Create Product</h2>
+                <form action="/product/create" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name">Product Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="text" id="price" name="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="currency">Select Currency:</label>
+                        <select id="currency" name="currency" required>
+                            <option value="NGN">Naira</option>
+                            <option value="Dol">Dollar</option>
+                            <option value="Pod">Pounds</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="productType">Product Type:</label>
+                        <select id="productType" name="productType" required>
+                            <option value="Skin">Skin</option>
+                            <option value="Essentials">Essentials</option>
+                            <option value="Concierge">Concierge</option>
+                            <option value="Gifts">Gifts</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="image1">Upload Image 1:</label>
+                        <input type="file" id="image1" name="image1" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image2">Upload Image 2:</label>
+                        <input type="file" id="image2" name="image2" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image3">Upload Image 3:</label>
+                        <input type="file" id="image3" name="image3" accept="image/*" required>
+                    </div>
+                    <input type="submit" value="Create Product">
+                </form>
+            </div>
+  
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+  </div>
+
+
+  <script>
+    new Vue({
+  el: '#app',
+    data() {
+    return {
+      isOpen: false,
+    }
+  },
+  methods: {
+    toggleMenu() {
+      this.isOpen = !this.isOpen;
+    }
+  }
+})
+  </script>
+  <script>
+    function getCurrentDate() {
+        const date = new Date();
+        const options = { month: 'long', day: 'numeric' };
+        const formattedDate = date.toLocaleDateString('en-US', options);
+        document.getElementById('currentDate').textContent = formattedDate;
+    }
+
+    // Call the function to display the date when the page loads
+    window.onload = getCurrentDate;
+</script>

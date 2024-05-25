@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card {
+            border: none;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .price {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .rating i {
+            color: #f39c12;
+        }
+
+        .action-btns a {
+            margin-right: 5px;
+        }
+
+        .features-img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .features-caption h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .features-caption p {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-footer .review p {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Our Products</h1>
+    <div class="row">
+        {% if products %}
+            {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="features-img">
+                            <a href="{{ url_for('product_details', product_id=product.id) }}">
+                                <img src="{{ url_for('static', filename='uploads/' + product.image1) }}" class="card-img-top" alt="Product Image">
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            <div class="price">{{ product.currency }}{{ product.price }}</div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="review">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <p>(120 Review)</p>
+                            </div>
+                            <div class="action-btns">
+                                <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-success btn-sm"><i class="ti-shopping-cart"></i> Add to Cart</a>
+                                <a href="{{ url_for('add_to_wishlist', product_id=product.id) }}" class="btn btn-outline-danger btn-sm"><i class="ti-heart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <p class="text-center">No products available.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

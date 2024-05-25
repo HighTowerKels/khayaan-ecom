@@ -1,0 +1,18 @@
+{% if products %}
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {% for product in products %}
+                <div class="swiper-slide">
+                    <a href="{{ url_for('product_details', product_id=product.id) }}">
+                        <img src="{{ url_for('static', filename='uploads/' + product.image1) }}" alt="Product Image">
+                    </a>
+                    <div class="price">
+                        <span>${{ product.price }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Add pagination if needed -->
+        <div class="swiper-pagination"></div>
+    </div>
+{% endif %}

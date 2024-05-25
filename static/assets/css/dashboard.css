@@ -1,0 +1,20 @@
+.menu-slide-enter-active {
+    transition: all .2s ease-out;
+  }
+  .menu-slide-leave-active {
+    transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .menu-slide-enter, .menu-slide-leave-to {
+    transform: translateX(-200px);
+    opacity: 0;
+  }
+  
+  .mask-enter-active {
+    transition: all .3s ease-out;
+  }
+  .mask-enter, .mask-leave-to {
+    opacity: 0;
+  }
+  .transition-menu {
+    transition: width 0.2s ease;
+  }
